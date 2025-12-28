@@ -90,6 +90,8 @@
 <details>
     <summary style="font-weight: bold; font-size: 17px;">로그수집(ELK stack) - optional</summary>
 
-<img style="width: 700px;" src="./docs/images/ELK-stack.png">
+<img style="width: 800px;" src="./docs/images/ELK-stack.png">
+
+access log file을 File Beats 수집
 
 </details>
