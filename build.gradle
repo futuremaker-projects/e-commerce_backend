@@ -34,9 +34,6 @@ subprojects {
         // Lombok
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
-
-        // 부트 BOM에 맞춰 버전 생략
-        testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
 
     test {
