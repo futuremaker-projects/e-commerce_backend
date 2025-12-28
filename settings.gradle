@@ -1,0 +1,4 @@
+rootProject.name = 'e-commerce_backend'
+include 'ecommerce-membership'
+include 'ecommerce-product'
+
