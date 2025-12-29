@@ -29,7 +29,8 @@ public class ProductJpaQuerySupport extends QuerydslRepositorySupport {
                         Projections.constructor(
                                 ProductPayload.Get.class,
                                 productEntity.id, productEntity.name,
-                                productEntity.description, productEntity.price
+                                productEntity.description, productEntity.price,
+                                productEntity.categoryId
                         )
                 )
                 .from(productEntity)
