@@ -34,3 +34,7 @@ spring:
       hibernate.format_sql: true
     defer-datasource-initialization: false
   sql.init.mode: never
+  elasticsearch:
+    uris: http://localhost:9200
+    connection-timeout-ms: 2000
+    socket-timeout-ms: 5000
