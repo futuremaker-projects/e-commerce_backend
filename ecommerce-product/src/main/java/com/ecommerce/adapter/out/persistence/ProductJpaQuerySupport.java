@@ -28,8 +28,9 @@ public class ProductJpaQuerySupport extends QuerydslRepositorySupport {
         List<ProductPayload.Get> products = queryFactory.select(
                         Projections.constructor(
                                 ProductPayload.Get.class,
-                                productEntity.id, productEntity.name,
+                                productEntity.id, productEntity.productName,
                                 productEntity.description, productEntity.price,
+                                productEntity.quantity,
                                 productEntity.categoryId
                         )
                 )
