@@ -27,7 +27,7 @@ public class ProductEntity {
     private Long price;
 
     @Column(columnDefinition = "INT UNSIGNED default 0 NOT NULL COMMENT '수량'")
-    private Integer quantity;
+    private Integer stock;
 
     @Column(columnDefinition = "BIGINT UNSIGNED NOT NULL COMMENT '카테고리 ID'")
     private Long categoryId;

@@ -30,8 +30,7 @@ public class ProductJpaQuerySupport extends QuerydslRepositorySupport {
                                 ProductPayload.Get.class,
                                 productEntity.id, productEntity.productName,
                                 productEntity.description, productEntity.price,
-                                productEntity.quantity,
-                                productEntity.categoryId
+                                productEntity.stock, productEntity.categoryId
                         )
                 )
                 .from(productEntity)

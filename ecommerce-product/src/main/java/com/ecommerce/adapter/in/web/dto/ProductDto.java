@@ -14,7 +14,7 @@ public class ProductDto {
             return Response.of(
                     product.getProductId(), product.getName(),
                     product.getDescription(), product.getPrice(),
-                    product.getQuantity()
+                    product.getStock()
             );
         }
     }
