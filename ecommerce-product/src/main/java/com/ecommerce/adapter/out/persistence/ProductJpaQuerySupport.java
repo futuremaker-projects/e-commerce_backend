@@ -3,6 +3,7 @@ package com.ecommerce.adapter.out.persistence;
 import com.ecommerce.adapter.out.persistence.entity.ProductEntity;
 import com.ecommerce.adapter.out.persistence.payload.ProductPayload;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -34,7 +35,7 @@ public class ProductJpaQuerySupport extends QuerydslRepositorySupport {
                         )
                 )
                 .from(productEntity)
-                .where(productEntity.categoryId.eq(categoryId))
+                .where(categoryEq(categoryId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
                 .orderBy(productEntity.id.desc())
@@ -44,6 +45,10 @@ public class ProductJpaQuerySupport extends QuerydslRepositorySupport {
         if (hasNext) products.remove(pageable.getPageSize());
 
         return new SliceImpl<>(products, pageable, hasNext);
+    }
+
+    private BooleanExpression categoryEq(Long categoryId) {
+        return categoryId != null ? productEntity.categoryId.eq(categoryId) : null;
     }
 
 }
