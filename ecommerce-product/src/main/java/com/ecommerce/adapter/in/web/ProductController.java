@@ -27,7 +27,7 @@ public class ProductController {
 
     @GetMapping("/products")
     public Response<Slice<ProductDto.Response>> getProducts(
-            @RequestParam String productName,
+            @RequestParam(required = false) String productName,
             @RequestParam Integer pageNum
     ) {
         Slice<Product> products = searchProductsUsecase.searchProducts(productName, pageNum);
