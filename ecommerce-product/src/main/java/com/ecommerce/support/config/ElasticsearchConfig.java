@@ -58,9 +58,6 @@ public class ElasticsearchConfig {
         );
         builder.setHttpClientConfigCallback(httpClientBuilder -> {
             httpClientBuilder.disableAuthCaching();
-            httpClientBuilder.setDefaultHeaders(
-                    List.of(new BasicHeader(HttpHeaders.CONTENT_TYPE, "application/json"))
-            );
             return httpClientBuilder;
         });
 
@@ -88,7 +85,7 @@ public class ElasticsearchConfig {
      * Spring Data Elasticsearch용 Operations/Template
      * - Repository, IndexOperations, mapping/CRUD 등에 사용
      */
-    @Bean
+    @Bean(name = "elasticsearchTemplate")
     public ElasticsearchOperations elasticsearchOperations(ElasticsearchClient client) {
         return new ElasticsearchTemplate(client);
     }

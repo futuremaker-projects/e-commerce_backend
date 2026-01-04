@@ -7,4 +7,6 @@ public interface SearchProductsUsecase {
 
     Slice<Product> searchProducts(Long categoryId, Integer pageNum);
 
+    Slice<Product> searchProducts(String productName, Integer pageNum);
+
 }

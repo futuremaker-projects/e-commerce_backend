@@ -38,3 +38,7 @@ spring:
     uris: http://localhost:9200
     connection-timeout-ms: 2000
     socket-timeout-ms: 5000
+logging:
+  level:
+    org.apache.http: INFO
+    org.elasticsearch.client.RestClient: INFO

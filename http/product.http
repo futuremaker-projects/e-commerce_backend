@@ -1,2 +1,6 @@
 ### 카테고리 별 상품 목록조회
 GET http://localhost:8081/api/products/categories/1?pageNum=0
+
+
+### 상품명 목록조회
+GET http://localhost:8081/api/products?productName=노트&pageNum=0

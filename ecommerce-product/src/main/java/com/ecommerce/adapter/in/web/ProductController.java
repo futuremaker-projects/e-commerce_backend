@@ -16,11 +16,21 @@ public class ProductController {
     private final SearchProductsUsecase searchProductsUsecase;
 
     @GetMapping("/products/categories/{categoryId}")
-    public Response<Slice<ProductDto.Response>> getProductByCategoryId(
+    public Response<Slice<ProductDto.Response>> getProduct(
             @PathVariable Long categoryId,
             @RequestParam Integer pageNum
     ) {
         Slice<Product> products = searchProductsUsecase.searchProducts(categoryId, pageNum);
+        Slice<ProductDto.Response> responses = products.map(ProductDto.Response::from);
+        return Response.success(responses);
+    }
+
+    @GetMapping("/products")
+    public Response<Slice<ProductDto.Response>> getProducts(
+            @RequestParam String productName,
+            @RequestParam Integer pageNum
+    ) {
+        Slice<Product> products = searchProductsUsecase.searchProducts(productName, pageNum);
         Slice<ProductDto.Response> responses = products.map(ProductDto.Response::from);
         return Response.success(responses);
     }

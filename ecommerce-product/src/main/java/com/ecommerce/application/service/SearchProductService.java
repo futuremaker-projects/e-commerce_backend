@@ -15,8 +15,12 @@ public class SearchProductService implements SearchProductsUsecase {
 
     @Override
     public Slice<Product> searchProducts(Long categoryId, Integer pageNum) {
-
         return searchProductPort.searchProducts(categoryId, pageNum);
+    }
+
+    @Override
+    public Slice<Product> searchProducts(String productName, Integer pageNum) {
+        return searchProductPort.searchProducts(productName, pageNum);
     }
 
 }
