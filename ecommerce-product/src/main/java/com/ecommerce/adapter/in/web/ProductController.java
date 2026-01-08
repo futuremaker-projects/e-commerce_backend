@@ -35,4 +35,11 @@ public class ProductController {
         return Response.success(responses);
     }
 
+    @GetMapping("/product/{productId}")
+    public Response<ProductDto.Response> getProduct(@PathVariable Long productId) {
+        Product product = searchProductsUsecase.getProduct(productId);
+        ProductDto.Response productDto = ProductDto.Response.from(product);
+        return Response.success(productDto);
+    }
+
 }
