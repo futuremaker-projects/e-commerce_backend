@@ -23,4 +23,9 @@ public class SearchProductService implements SearchProductsUsecase {
         return searchProductPort.searchProducts(productName, pageNum);
     }
 
+    @Override
+    public Product getProduct(Long productId) {
+        return null;
+    }
+
 }
