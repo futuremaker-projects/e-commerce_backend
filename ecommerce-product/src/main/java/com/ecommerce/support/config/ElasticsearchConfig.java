@@ -4,11 +4,10 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
-import org.apache.http.HttpHeaders;
 import org.apache.http.HttpHost;
-import org.apache.http.HttpRequestInterceptor;
-import org.apache.http.HttpResponseInterceptor;
-import org.apache.http.message.BasicHeader;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +18,6 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 import java.util.Arrays;
-import java.util.List;
 
 @EnableElasticsearchRepositories
 @Configuration
@@ -29,8 +27,12 @@ public class ElasticsearchConfig {
      * ES8/Boot3 표준 프로퍼티: spring.elasticsearch.uris
      * 예) http://localhost:9200 (여러 개는 콤마로 표현)
      */
-    @Value("${spring.elasticsearch.uris:http://localhost:9200}")
+    @Value("${spring.elasticsearch.uris}")
     private String uris;
+//    @Value("${spring.elasticsearch.username}")
+//    private String username;
+//    @Value("${spring.elasticsearch.password}")
+//    private String password;
 
     @Value("${spring.elasticsearch.connection-timeout-ms:2000}")
     private int connectTimeoutMs;
@@ -58,6 +60,17 @@ public class ElasticsearchConfig {
         );
         builder.setHttpClientConfigCallback(httpClientBuilder -> {
             httpClientBuilder.disableAuthCaching();
+            /**
+                // username/password가 비어있지 않을 때만 적용
+                if (username != null && !username.isBlank()) {
+                    var credentialsProvider = new BasicCredentialsProvider();
+                    credentialsProvider.setCredentials(
+                            AuthScope.ANY,
+                            new UsernamePasswordCredentials(username, password)
+                    );
+                    httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+                }
+           **/
             return httpClientBuilder;
         });
 

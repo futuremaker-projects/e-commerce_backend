@@ -51,4 +51,25 @@ public class ProductJpaQuerySupport extends QuerydslRepositorySupport {
         return categoryId != null ? productEntity.categoryId.eq(categoryId) : null;
     }
 
+    public List<ProductPayload.Get> searchProducts(String productName) {
+        return queryFactory.select(
+                        Projections.constructor(
+                                ProductPayload.Get.class,
+                                productEntity.id, productEntity.productName,
+                                productEntity.description, productEntity.price,
+                                productEntity.stock, productEntity.categoryId
+                        )
+                )
+                .from(productEntity)
+                .where(productNameContains(productName))
+                .orderBy(productEntity.id.desc())
+                .fetch();
+    }
+
+    private BooleanExpression productNameContains(String productName) {
+        if (productName == null || productName.isBlank()) {
+            return null;
+        }
+        return productEntity.productName.containsIgnoreCase(productName);
+    }
 }

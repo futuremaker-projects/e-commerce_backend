@@ -30,7 +30,7 @@ public class SearchProductAdapter implements SearchProductPort {
     private final int PAGE_NUM = 20;
 
     /**
-        JPA를 이용한 상품 검색
+     * JPA를 이용한 상품 검색
      */
     @Override
     public Slice<Product> searchProducts(Long categoryId, int pageNum) {
@@ -40,7 +40,7 @@ public class SearchProductAdapter implements SearchProductPort {
     }
 
     /**
-        Elasticsearch 를 이용한 상품 검색
+     * Elasticsearch 를 이용한 상품 검색
      */
     @Override
     public Slice<Product> searchProducts(String productName, int pageNum) {
@@ -79,6 +79,42 @@ public class SearchProductAdapter implements SearchProductPort {
         boolean hasNext = contents.size() >= pageable.getPageSize();
 
         return new SliceImpl<>(contents, pageable, hasNext);
+    }
+
+    /**
+     * 상품명으로 모든 상품을 검색(SQL)
+     * @param productName
+     * @return
+     */
+    @Override
+    public List<Product> searchProductsBySql(String productName) {
+        List<ProductPayload.Get> products = productJpaQuerySupport.searchProducts(productName);
+        return products.stream().map(ProductPayload.Get::toDomain).collect(Collectors.toList());
+    }
+
+    /**
+     * 상품명으로 모든 상품 검색(Elasticsearch)
+     * @param productName
+     * @return
+     */
+    @Override
+    public List<Product> searchProductsByEs(String productName) {
+        NativeQuery query = NativeQuery.builder()
+                .withQuery(q -> q
+                        .match(m -> m
+                                .field("productName")
+                                .query(productName)
+                        )
+                ).build();
+
+        // 검색 실행
+        SearchHits<ProductSearchDocument> searchHits = elasticsearchOperations.search(query, ProductSearchDocument.class);
+
+        // SearchHits를 Domain 객체 리스트로 변환
+        List<Product> contents = searchHits.getSearchHits().stream()
+                .map(hit -> ProductMapper.Get.toDomain(hit.getContent()))
+                .collect(Collectors.toList());
+        return contents;
     }
 
 }
